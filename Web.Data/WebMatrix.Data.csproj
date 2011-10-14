@@ -8,8 +8,8 @@
     <ProjectGuid>{62D93A62-1592-469B-A04D-215951D07560}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Web.Data</RootNamespace>
-    <AssemblyName>Web.Data</AssemblyName>
+    <RootNamespace>WebMatrix.Data</RootNamespace>
+    <AssemblyName>WebMatrix.Data</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -34,20 +34,20 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Common\CommonResources.cs" />
     <Compile Include="Common\ExceptionHelper.cs" />
     <Compile Include="ConfigurationManagerWrapper.cs" />
     <Compile Include="ConnectionConfiguration.cs" />
     <Compile Include="ConnectionEventArgs.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="DbProviderFactoryWrapper.cs" />
-    <Compile Include="DynamicRecord.cs" />
     <Compile Include="IConfigurationManager.cs" />
     <Compile Include="IConnectionConfiguration.cs" />
     <Compile Include="IDbFileHandler.cs" />
@@ -61,8 +61,13 @@
     <Compile Include="SqlCeDbFileHandler.cs" />
     <Compile Include="SqlServerDbFileHandler.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <Folder Include="System.Dynamic\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Common\CommonResources.resx">
+      <DependentUpon>CommonResources.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\DataResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DataResources.Designer.cs</LastGenOutput>

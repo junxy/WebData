@@ -68,24 +68,30 @@ namespace WebMatrix.Data {
             }
         }
 
-        public dynamic QuerySingle(string commandText, params object[] args) {
+        public System.Data.DataRow QuerySingle(string commandText, params object[] args) {
             if (String.IsNullOrEmpty(commandText)) {
                 throw ExceptionHelper.CreateArgumentNullOrEmptyException("commandText");
             }
 
-            return QueryInternal(commandText, args).FirstOrDefault();
+            //return QueryInternal(commandText, args).FirstOrDefault();
+
+            var dt = QueryInternal(commandText, args);
+            return dt != null && dt.Rows.Count > 0 ? dt.Rows[0] : null;
+            
         }
 
-        public IEnumerable<dynamic> Query(string commandText, params object[] parameters) {
+        public System.Data.DataTable Query(string commandText, params object[] parameters) {
             if (String.IsNullOrEmpty(commandText)) {
                 throw ExceptionHelper.CreateArgumentNullOrEmptyException("commandText");
             }
             // Return a readonly collection
-            return QueryInternal(commandText, parameters).ToList().AsReadOnly();
+            //return QueryInternal(commandText, parameters).ToList().AsReadOnly();
+
+            return QueryInternal(commandText, parameters);
         }
 
         [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "Users are responsible for ensuring the inputs to this method are SQL Injection sanitized")]
-        private IEnumerable<dynamic> QueryInternal(string commandText, params object[] parameters) {
+        private System.Data.DataTable QueryInternal(string commandText, params object[] parameters) {
             EnsureConnectionOpen();
 
             DbCommand command = Connection.CreateCommand();
@@ -93,14 +99,17 @@ namespace WebMatrix.Data {
 
             AddParameters(command, parameters);
             using (command) {
-                IEnumerable<string> columnNames = null;
+                //IEnumerable<string> columnNames = null;
                 using (DbDataReader reader = command.ExecuteReader()) {
-                    foreach (DbDataRecord record in reader) {
-                        if (columnNames == null) {
-                            columnNames = GetColumnNames(record);
-                        }
-                        yield return new DynamicRecord(columnNames, record);
-                    }
+                    //foreach (DbDataRecord record in reader) {
+                    //    if (columnNames == null) {
+                    //        columnNames = GetColumnNames(record);
+                    //    }
+                        //yield return new DynamicRecord(columnNames, record);
+                    //}
+                    var dt = new System.Data.DataTable();
+                    dt.Load(reader);
+                    return dt;
                 }
             }
         }
@@ -130,13 +139,13 @@ namespace WebMatrix.Data {
         }
 
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "This makes a database request")]
-        public dynamic GetLastInsertId() {
+        public object GetLastInsertId() {
             // This method only support sql ce and sql server for now
             return QueryValue("SELECT @@Identity");
         }
 
         [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "Users are responsible for ensuring the inputs to this method are SQL Injection sanitized")]
-        public dynamic QueryValue(string commandText, params object[] args) {
+        public object QueryValue(string commandText, params object[] args) {
             if (String.IsNullOrEmpty(commandText)) {
                 throw ExceptionHelper.CreateArgumentNullOrEmptyException("commandText");
             }
