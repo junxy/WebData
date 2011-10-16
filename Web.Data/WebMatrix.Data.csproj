@@ -47,7 +47,9 @@
     <Compile Include="ConnectionConfiguration.cs" />
     <Compile Include="ConnectionEventArgs.cs" />
     <Compile Include="Database.cs" />
+    <Compile Include="DatabaseHelper.cs" />
     <Compile Include="DbProviderFactoryWrapper.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IConfigurationManager.cs" />
     <Compile Include="IConnectionConfiguration.cs" />
     <Compile Include="IDbFileHandler.cs" />

@@ -1,7 +1,7 @@
 ﻿namespace WebMatrix.Data {
     using System;
     using System.Data.Common;
-    //using Microsoft.Internal.Web.Utils;
+    using Microsoft.Internal.Web.Utils;
 
     internal class DbProviderFactoryWrapper : IDbProviderFactory {
         private string _providerName;

@@ -68,30 +68,24 @@ namespace WebMatrix.Data {
             }
         }
 
-        public System.Data.DataRow QuerySingle(string commandText, params object[] args) {
+        public DataRow QuerySingle(string commandText, params object[] args) {
             if (String.IsNullOrEmpty(commandText)) {
                 throw ExceptionHelper.CreateArgumentNullOrEmptyException("commandText");
             }
-
-            //return QueryInternal(commandText, args).FirstOrDefault();
-
             var dt = QueryInternal(commandText, args);
             return dt != null && dt.Rows.Count > 0 ? dt.Rows[0] : null;
-            
         }
 
-        public System.Data.DataTable Query(string commandText, params object[] parameters) {
+        public DataTable Query(string commandText, params object[] parameters) {
             if (String.IsNullOrEmpty(commandText)) {
                 throw ExceptionHelper.CreateArgumentNullOrEmptyException("commandText");
             }
             // Return a readonly collection
-            //return QueryInternal(commandText, parameters).ToList().AsReadOnly();
-
             return QueryInternal(commandText, parameters);
         }
 
         [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "Users are responsible for ensuring the inputs to this method are SQL Injection sanitized")]
-        private System.Data.DataTable QueryInternal(string commandText, params object[] parameters) {
+        private DataTable QueryInternal(string commandText, params object[] parameters) {
             EnsureConnectionOpen();
 
             DbCommand command = Connection.CreateCommand();
@@ -105,9 +99,9 @@ namespace WebMatrix.Data {
                     //    if (columnNames == null) {
                     //        columnNames = GetColumnNames(record);
                     //    }
-                        //yield return new DynamicRecord(columnNames, record);
+                    //    yield return new DynamicRecord(columnNames, record);
                     //}
-                    var dt = new System.Data.DataTable();
+                    var dt = new DataTable();
                     dt.Load(reader);
                     return dt;
                 }
